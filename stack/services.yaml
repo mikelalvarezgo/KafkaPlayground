@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  kowl:
+      image: quay.io/cloudhut/kowl:master
+      container_name: kowl
+      ports:
+        - 8082:8080
+      environment:
+        KAFKA_BROKERS: kafka:9092
+  zookeeper:
+      image: library/zookeeper:3.6.2
+      container_name: zookeeper
+      restart: always
+      ports:
+        - 8080:8080
+        - 2181:2181
+  kafka:
+      image: wurstmeister/kafka:2.13-2.6.0
+      container_name: kafka
+      environment:
+        KAFKA_ADVERTISED_HOST_NAME: "kafka"
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_CREATE_TOPICS: "test:1:1"
+      depends_on:
+        - zookeeper
+      ports:
+        - 9092:9092
