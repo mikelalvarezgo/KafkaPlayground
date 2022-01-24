@@ -4,7 +4,6 @@ SHELL := /bin/bash
 
 EXECUTABLES=docker docker-compose sbt npm widdershins
 
-
 ifeq (logs, $(firstword $(MAKECMDGOALS)))
    logargs := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
    $(eval $(logargs):;@true)
@@ -24,3 +23,8 @@ up:
  .PHONY : down
  down:
 	@docker-compose -f stack/services.yaml down
+
+## 	dependencies: Install the libraries needed for the execution of scripts
+ .PHONY : dependencies
+ dependencies:
+	./dependencies.sh
